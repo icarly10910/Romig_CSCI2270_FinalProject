@@ -1,0 +1,22 @@
+# depslib dependency file v1.0
+1461789046 source:/home/user/Desktop/MountainBackpackers/main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+	<sstream>
+	<queue>
+	<cstring>
+	"Graph.h"
+
+1461787739 /home/user/Desktop/MountainBackpackers/include/Graph.h
+	<vector>
+	<iostream>
+
+1461786547 source:/home/user/Desktop/MountainBackpackers/src/Graph.cpp
+	"Graph.h"
+	<vector>
+	<iostream>
+	<queue>
+	<limits.h>
+	<algorithm>
+

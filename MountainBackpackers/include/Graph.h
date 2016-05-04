@@ -50,8 +50,9 @@ class Graph
         void shortestPath(std::string startingCity,std::string endingCity);
         void shortestDistance(std::string startingCity,std::string endingCity);
         void shortestDistanceRoundTrip(std::string startingCity);
-        void time(int);
-        //void water();
+        void time(int i);
+        void backpackingTime(std::string trailhead,std::string trailEnd);
+        void water(std::string trailhead, std::string trailEnd);
         vertex * findVertex(std::string name);
 
     protected:

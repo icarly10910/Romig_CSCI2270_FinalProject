@@ -177,22 +177,9 @@ int main(int argc, char *argv[])
                 }
                 break;
             }
+
             case 5:
             //if (input == "5")
-            {
-                //g.time(c);
-                break;
-            }
-            case 6:
-            {
-                cout<<"Go take a hike!"<<endl;
-                break;
-            }
-            default: {
-                cout<<"Please enter a valid choice"<<endl;
-            }
-/*
-            if (input=="6")
             {
                 string trailhead;
                 string trailEnd;
@@ -211,15 +198,21 @@ int main(int argc, char *argv[])
                             if (hikingPath[i] == trailEnd)
                             {
                                 bothfound = true;
-                                //g.water(trailhead, trailEnd);
+                               // g.backpackingTime(trailhead, trailEnd);
                             }
                         }
                     }
                 }
-
             }
-    */
 
+            case 6:
+            {
+                cout<<"Go take a hike!"<<endl;
+                break;
+            }
+            default: {
+                cout<<"Please enter a valid choice"<<endl;
+            }
         }
         }
 
@@ -229,3 +222,4 @@ int main(int argc, char *argv[])
         }
     }
 }
+

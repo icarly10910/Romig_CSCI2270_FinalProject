@@ -29,9 +29,12 @@ vertex * Graph::findVertex(std::string name) //find verticies
 void Graph::addEdge(string v1, string v2, int weight)//creates edges
 {
     for(int i = 0; i < vertices.size(); i++){
-        if(vertices[i].name == v1){
-            for(int j = 0; j < vertices.size(); j++){
-                if(vertices[j].name == v2 && i != j){
+        if(vertices[i].name == v1)
+        {
+            for(int j = 0; j < vertices.size(); j++)
+            {
+                if(vertices[j].name == v2 && i != j)
+                {
                     adjVertex av;
                     av.v = &vertices[j];
                     av.weight = weight;
@@ -45,13 +48,16 @@ void Graph::addEdge(string v1, string v2, int weight)//creates edges
 void Graph::addVertex(string n)//insert vertices
 {
     bool found = false;
-    for(int i = 0; i < vertices.size(); i++){
-        if(vertices[i].name == n){
+    for(int i = 0; i < vertices.size(); i++)
+    {
+        if(vertices[i].name == n)
+        {
             found = true;
             cout<<vertices[i].name<<" found."<<endl;
         }
     }
-    if(found == false){
+    if(found == false)
+    {
         vertex v;
         v.name = n;
         v.district = -1;
@@ -63,9 +69,11 @@ void Graph::addVertex(string n)//insert vertices
 
 void Graph::displayEdges()//print connection between cities
 {
-    for(int i = 0; i < vertices.size(); i++){
+    for(int i = 0; i < vertices.size(); i++)
+    {
         cout<< vertices[i].district <<":" <<vertices[i].name<<"-->";
-        for(int j = 0; j < vertices[i].adj.size(); j++){
+        for(int j = 0; j < vertices[i].adj.size(); j++)
+        {
             cout<<vertices[i].adj[j].v->name;
             if (j != vertices[i].adj.size()-1)
                 cout<<"***";
@@ -130,8 +138,7 @@ void Graph::shortestPath(std::string trailhead,std::string trailEnd)//find short
 
     if (start == NULL || end == NULL)
     {
-
-        cout << "One or more trails doesn't exist, or it is not in our Database"<< endl;
+        cout << "One or more trails doesn't exist,or it is not in our Database"<< endl;
         return;
     }
     if (end->district != start->district)
@@ -181,9 +188,10 @@ void Graph::shortestPath(std::string trailhead,std::string trailEnd)//find short
                 // If we have found the correct path
                 if (qv.path.back()->adj[i].v == end)
                 {
-                    cout << temp.distance;
+                    cout<<"===PATH==="<<endl;
+                    cout<<"district: " << temp.distance;
                     for (int j = 0; j < temp.path.size(); j++)
-                        cout << "," << temp.path[j]->name;
+                        cout <<", "<< temp.path[j]->name;
                     cout << endl;
                     return;
                 }
@@ -212,13 +220,11 @@ void Graph::shortestDistance(std::string trailhead,std::string trailEnd)//find s
         cout << "No safe hiking trail" << endl;
         return;
     }
-    ///*
     if (end->district == -1 || start->district == -1)
     {
         cout << "Please identify the districts before checking distances" << endl;
         return;
     }
-    //*/
 
     // Initialization
     int previous[vertices.size()];
@@ -237,30 +243,91 @@ void Graph::shortestDistance(std::string trailhead,std::string trailEnd)//find s
     {
         cur = q.top();
         q.pop();
-
-        // Visit each adjacent node.
         for(int i = 0; i < cur->adj.size(); i++)
         {
             if (cur->adj[i].v->visited == false)
             {
-                // Calculate distance to this node.
                 int distance = cur->distance + cur->adj[i].weight;
-
-                // If distance is less than the tentative distance at the node, update the node.
                 if (distance < cur->adj[i].v->distance)
                 {
                    cur->adj[i].v->distance = distance;
                    previous[cur->adj[i].v->ID] = cur->ID;
                 }
-
-                // Add adjacent node to queue.
                 q.push(cur->adj[i].v);
             }
         }
-        // Mark this node as visited.
         cur->visited = true;
+        if (cur == end)
+        {
+            int i = cur->ID;
+            int c=cur->distance;
+            cout<<"===PATH==="<<endl;
+            cout<<"Distance: "<< cur->distance;
+            cout << "," << cur->name;
+            while (previous[i] != -1)
+            {
+                cout << "," << vertices[previous[i]].name;
+                i = vertices[previous[i]].ID;
+            }
+            cout << endl;
+            break;
+        }
+    }
+    return;
+}
 
-        // If we have found the correct path, output and return.
+void Graph::backpackingTime(std::string trailhead,std::string trailEnd)
+{
+    vertex * start = findVertex(trailEnd);
+    vertex * end = findVertex(trailhead);
+
+    if (start == NULL || end == NULL)
+    {
+        cout << "One or more trails doesn't exist,or it is not in our Database" << endl;
+        return;
+    }
+    if (end->district != start->district)
+    {
+        cout << "No safe hiking trail" << endl;
+        return;
+    }
+    if (end->district == -1 || start->district == -1)
+    {
+        cout << "Please identify the districts before checking distances" << endl;
+        return;
+    }
+
+    // Initialization
+    int previous[vertices.size()];
+    for(int i = 0; i < vertices.size(); i++)
+    {
+        vertices[i].visited = false;
+        previous[vertices[i].ID] = -1;
+        vertices[i].distance = INT_MAX;
+    }
+    priority_queue<vertex * ,vector<vertex *>, Comparator> q;
+    start->distance = 0;
+    q.push(start);
+    vertex * cur;
+
+    while (q.empty() != true)
+    {
+        cur = q.top();
+        q.pop();
+        for(int i = 0; i < cur->adj.size(); i++)
+        {
+            if (cur->adj[i].v->visited == false)
+            {
+                int distance = cur->distance + cur->adj[i].weight;
+                if (distance < cur->adj[i].v->distance)
+                {
+                   cur->adj[i].v->distance = distance;
+                   previous[cur->adj[i].v->ID] = cur->ID;
+                }
+                q.push(cur->adj[i].v);
+            }
+        }
+        cur->visited = true;
         if (cur == end)
         {
             int i = cur->ID;
@@ -269,15 +336,14 @@ void Graph::shortestDistance(std::string trailhead,std::string trailEnd)//find s
             cout << "," << cur->name;
             while (previous[i] != -1)
             {
-                cout << "," << vertices[previous[i]].name;
+                //cout << "," << vertices[previous[i]].name;
                 i = vertices[previous[i]].ID;
             }
             cout << endl;
-            //time(c);
+            time(c);
             break;
-        }
     }
-    return;
+}
 }
 
 void Graph::time(int i)//Using as a parameter the km from the above function convert it in time of traveling
@@ -289,7 +355,7 @@ void Graph::time(int i)//Using as a parameter the km from the above function con
     int remainder2;
     remainder2 = minutes % 60;
     cout<<endl;
-    cout<<"TIME OF TRAVELLING"<<endl;
+    cout<<"Time of Hike"<<endl;
     cout<<"=================="<<endl;
     cout<<"The time to get to your destination by foot is ";
     if (convert_to_hours < 1)
@@ -335,27 +401,20 @@ void Graph::shortestDistanceRoundTrip(std::string trailhead)
     qv.path.push_back(start);
     queue<queueVertex> q;
     q.push(qv);
-
-    // Contains all of the possible path solutions we run into.
     std::priority_queue<queueVertex> possibleSolutions;
 
     while (q.empty() != true)
     {
         qv = q.front();
         q.pop();
-
-        // If we have covered all nodes, we need to add the connection back to the first node if it exists.
         if (qv.path.size() == vertices.size())
         {
             for(int i = 0; i < qv.path.back()->adj.size(); i++)
             {
-                // If we find a link to the first node.
                 if (qv.path.back()->adj[i].v == start)
                 {
-                    // Add it to path
                     qv.distance += qv.path.back()->adj[i].weight;
                     qv.path.push_back(qv.path.back()->adj[i].v);
-                    // Add this as a possible solution.
                     possibleSolutions.push(qv);
                 }
             }
@@ -363,11 +422,8 @@ void Graph::shortestDistanceRoundTrip(std::string trailhead)
 
         else
         {
-            // For each adjacent city
             for(int i = 0; i < qv.path.back()->adj.size(); i++)
             {
-
-                // Create a new path that contains this node, if node doesn't already exist in path.
                 if (std::find(qv.path.begin(), qv.path.end(),qv.path.back()->adj[i].v) == qv.path.end())
                 {
                     vector<vertex *> path = qv.path;
@@ -393,12 +449,23 @@ void Graph::shortestDistanceRoundTrip(std::string trailhead)
     else
         cout << "No possible path." << endl;
     return;
-}
+};
 /*
 void Graph::water(string trailhead, string trailEnd)
 {
-    if(distance<=10)
-    {
 
+    if(distance<="10")
+    {
+        cout<<"All you need to bring a nalgene bottle!"<<endl;
     }
-}*/
+    else if (distance>"10" && distance<"50")
+    {
+        cout<<"Make sure to bring at least 4 liters of water. Bringing a water filter is recommended."<<endl;
+    }
+    else
+    {
+        cout<<"Make sure to bring at least 4 liters of water. You should make sure to bring a water filter, and always have at least two nalgenes filled."<<endl;
+    }
+
+};
+*/

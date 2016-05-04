@@ -130,7 +130,8 @@ void Graph::shortestPath(std::string trailhead,std::string trailEnd)//find short
 
     if (start == NULL || end == NULL)
     {
-        cout << "One or more trails doesn't exist,or it is not in our Database"<< endl;
+
+        cout << "One or more trails doesn't exist, or it is not in our Database"<< endl;
         return;
     }
     if (end->district != start->district)

@@ -15,4 +15,7 @@ Attached to the file is a text file with all the destinations and is needed to r
 ###Group Members
 This project was made by Carly Romig and Daniel Zhou from Upendra Sabnis’ 8am Recitation.
 
+###Open Issues/Bugs
+There is a small bug when searching the distance from Bowman Lake and Camas Creek.
+
 
